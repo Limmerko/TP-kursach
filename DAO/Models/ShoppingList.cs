@@ -7,6 +7,6 @@ namespace Computer_Store.DAO.Models
 {
     public class ShoppingList
     {
-        public int Id_Product { get; set; }
+        public int productId { get; set; }
     }
 }

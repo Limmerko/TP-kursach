@@ -7,13 +7,13 @@ namespace Computer_Store.DAO.Models
 {
     public class Basket
     {
-        public int ID { get; set; }
-        public int ShoppingList { get; set;}
-        public int OrderList { get; set; }
-        public int Id_Client { get; set; }
-        public DateTime DateOfCreation { get; set; }
-        public string Status { get; set; }
-        public int TotalPrice { get; set; }
+        public int id { get; set; }
+        public int shoppingList { get; set;}
+        public int orderList { get; set; }
+        public int clientId{ get; set; }
+        public DateTime dateOfCreation { get; set; }
+        public string status { get; set; }
+        public int totalPrice { get; set; }
 
     }
 }

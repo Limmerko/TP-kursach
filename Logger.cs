@@ -9,15 +9,15 @@ namespace Computer_Store
 {
     public class Logger
     {
-        private static readonly ILog log = 
+        private static readonly ILog l = 
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static ILog Log
+        public static ILog log
         {
-            get { return log; }
+            get { return l; }
         }
 
-        public static void InitLogger()
+        public static void initLogger()
         {
             XmlConfigurator.Configure();
         }

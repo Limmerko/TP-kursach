@@ -9,7 +9,7 @@ namespace Computer_Store.DAO
 {
     public class DAO
     {
-        private const string ConnectionString =
+        private const string connectionString =
             @"Data Source=(localdb)\MSSQLLocalDB;Initial 
                 Catalog=ComputerStore;Integrated Security=True;
                 Connect Timeout=30;Encrypt=False;
@@ -17,14 +17,14 @@ namespace Computer_Store.DAO
                 ApplicationIntent=ReadWrite;
                 MultiSubnetFailover=False";
 
-        protected SqlConnection Connection { get; set; }
+        protected SqlConnection connection { get; set; }
         public void Connect()
         {
             Logger.Log.Info("Установка соединения с БД");
             try
             {
-                Connection = new SqlConnection(ConnectionString);
-                Connection.Open();
+                connection = new SqlConnection(connectionString);
+                connection.Open();
                 Logger.Log.Info("Установка соединения с БД выполнена");
             }
             catch (Exception e)
@@ -35,7 +35,7 @@ namespace Computer_Store.DAO
         public void Disconnect()
         {
             Logger.Log.Info("Закрытие соединения с БД");
-            Connection.Close();
+            connection.Close();
         }
     }
 }

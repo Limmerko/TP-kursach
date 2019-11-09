@@ -7,10 +7,10 @@ namespace Computer_Store.DAO.Models
 {
     public class Client
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Patronymic { get; set; }
-        public string Surname { get; set; }
-        public string Phone { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string patronymic { get; set; }
+        public string surname { get; set; }
+        public string phone { get; set; }
     }
 }
