@@ -9,32 +9,26 @@ namespace Computer_Store.DAO
 {
     public class DAO
     {
-        private const string connectionString =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial 
-                Catalog=ComputerStore;Integrated Security=True;
-                Connect Timeout=30;Encrypt=False;
-                TrustServerCertificate=False;
-                ApplicationIntent=ReadWrite;
-                MultiSubnetFailover=False";
-
+        private string connectionString = System.Configuration.ConfigurationManager.
+            ConnectionStrings[@"ComputerStoreDB"].ConnectionString;
         protected SqlConnection connection { get; set; }
-        public void Connect()
+        public void connect()
         {
-            Logger.Log.Info("Установка соединения с БД");
+            Logger.log.Info("Устанsовка соединения с БД");
             try
             {
                 connection = new SqlConnection(connectionString);
                 connection.Open();
-                Logger.Log.Info("Установка соединения с БД выполнена");
+                Logger.log.Info("Установка соединения с БД выполнена");
             }
             catch (Exception e)
             {
-                Logger.Log.Error("Произошла ошибка во время подключения к БД" + e.Message);
+                Logger.log.Error("Произошла ошибка во время подключения к БД" + e.Message);
             }
         }
-        public void Disconnect()
+        public void disconnect()
         {
-            Logger.Log.Info("Закрытие соединения с БД");
+            Logger.log.Info("Закрытие соединения с БД");
             connection.Close();
         }
     }

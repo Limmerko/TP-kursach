@@ -5,15 +5,13 @@ using System.Threading.Tasks;
 
 namespace Computer_Store.DAO.Models
 {
+    public enum status {Оплачено=1, Не_оплачено, частично_оплачено }
     public class Basket
     {
         public int id { get; set; }
-        public int shoppingList { get; set;}
-        public int orderList { get; set; }
         public int clientId{ get; set; }
         public DateTime dateOfCreation { get; set; }
-        public string status { get; set; }
+        public int statusId { get; set; }
         public int totalPrice { get; set; }
-
     }
 }

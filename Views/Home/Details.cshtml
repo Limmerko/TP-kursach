@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Состав корзины</h2>
+
+<p>
+    @Html.ActionLink("Найти товар", "название представления")
+</p>
+
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                <h3>Список покупок</h3>
+            </th>
+            <th>
+                <h3>Список заказов</h3>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <table class="table">
+                    <tr>
+                        <th>
+                            <h4>Название</h4>
+                        </th>
+                        <th>
+                            <h4>Номер</h4>
+                        </th>
+                        <th>
+                            <h4>Категория</h4>
+                        </th>
+                        <th>
+                            <h4>Производитель</h4>
+                        </th>
+                        <th>
+                            <h4>Цена</h4>
+                        </th>
+                    </tr>
+                    @foreach (var item in new Computer_Store.DAO.DAOClasses.ShoppingListDAO().getList(Convert.ToInt32(@ViewData["basketId"])))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).number)
+                            </td>
+                            <td>
+                                @((Computer_Store.DAO.Models.category)new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).categoryId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).producer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).price)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </th>
+            <th>
+                <table class="table">
+                    <tr>
+                        <th>
+                            <h4>Название</h4>
+                        </th>
+                        <th>
+                            <h4>Номер</h4>
+                        </th>
+                        <th>
+                            <h4>Категория</h4>
+                        </th>
+                        <th>
+                            <h4>Производитель</h4>
+                        </th>
+                        <th>
+                            <h4>Цена</h4>
+                        </th>
+                    </tr>
+                    @foreach (var item in new Computer_Store.DAO.DAOClasses.OrderListDAO().getList(Convert.ToInt32(@ViewData["basketId"])))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).number)
+                            </td>
+                            <td>
+                                @((Computer_Store.DAO.Models.category)new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).categoryId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).producer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).price)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </th>
+        </tr>
+
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Вернуться назад", "Index")
+</p>

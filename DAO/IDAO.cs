@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Computer_Store.DAO
 {
-    interface IDAO
+    interface IDAO<T>
     {
-        void create<T>(T t);
-        List<T> getAll<T>();
-        T getOne<T>(int id);
-        void update<T>(int id, T t);
-        void delete<T>(int id);
+        void create(T t);
+        List<T> getAll();
+        T getOne(int id);
+        void update(int id, T t);
+        void delete(int id);
     }
 }
