@@ -6,7 +6,7 @@
 <h2>Состав корзины</h2>
 
 <p>
-    @Html.ActionLink("Найти товар", "название представления")
+    @Html.ActionLink("Найти товар", "Search")
 </p>
 
 <div>
@@ -20,23 +20,23 @@
             </th>
         </tr>
         <tr>
-            <th>
-                <table class="table">
+            <td>
+                <table class="table" >
                     <tr>
                         <th>
-                            <h4>Название</h4>
+                            Название
                         </th>
                         <th>
-                            <h4>Номер</h4>
+                            Код товара
                         </th>
                         <th>
-                            <h4>Категория</h4>
+                            Категория
                         </th>
                         <th>
-                            <h4>Производитель</h4>
+                            Производитель
                         </th>
                         <th>
-                            <h4>Цена</h4>
+                            Стоимость
                         </th>
                     </tr>
                     @foreach (var item in new Computer_Store.DAO.DAOClasses.ShoppingListDAO().getList(Convert.ToInt32(@ViewData["basketId"])))
@@ -60,24 +60,24 @@
                         </tr>
                     }
                 </table>
-            </th>
-            <th>
+            </td>
+            <td>
                 <table class="table">
                     <tr>
                         <th>
-                            <h4>Название</h4>
+                            Название
                         </th>
                         <th>
-                            <h4>Номер</h4>
+                            Код товара
                         </th>
                         <th>
-                            <h4>Категория</h4>
+                            Категория
                         </th>
                         <th>
-                            <h4>Производитель</h4>
+                            Производитель
                         </th>
                         <th>
-                            <h4>Цена</h4>
+                            Стоимость
                         </th>
                     </tr>
                     @foreach (var item in new Computer_Store.DAO.DAOClasses.OrderListDAO().getList(Convert.ToInt32(@ViewData["basketId"])))
@@ -101,12 +101,28 @@
                         </tr>
                     }
                 </table>
-            </th>
+            </td>
         </tr>
-
-
+        <tr>
+            <td>
+                <b>
+                    <button type="button" />Продать
+                </b>
+            </td>
+            <td>
+                <b>
+                    <button type="button" />Заказать
+                </b>
+                <b>
+                    <button type="button" />Перевести
+                </b>
+            </td>
+        </tr>
     </table>
 </div>
+<hr />
+
+
 <p>
     @Html.ActionLink("Вернуться назад", "Index")
 </p>

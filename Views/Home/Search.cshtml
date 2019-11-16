@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Computer_Store.DAO.Models.Product>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Поиск товара</h2>
+
+<!--И ВСЕ ЭТО НАДО ЗАПИХАТЬ В ФОРМУ ЧТОБЫ ОТПРАВЛЯТЬ НА СЕРВЕР-->
+<hr />
+<table>
+    <tr>
+        <td>
+            <input type="text" placeholder="Введите название товара" size="50" />
+        </td>
+        <td>
+            <select>
+                <option disabled>Категория:</option>
+                <option>Без категории</option>
+                <option>Процессор</option>
+                <option>Видеокарта</option>
+                <option>ОП</option>
+                <option>Блок питания</option>
+                <option>Корпус</option>
+                <option>HDD</option>
+                <option>SSD</option>
+                <option>Монитор</option>
+                <option>Клавиатура</option>
+                <option>Мышь</option>
+                <option>Веб-камера</option>
+                <option>Графический планшет</option>
+            </select>
+        </td>
+        <td>
+            <input type="text" placeholder="Введите производителя товара" size="50" />
+        </td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+<br />
+<input type="submit" value="Найти" />
+<!--ВОТ ДО СЮДА-->
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+        <th>
+            Код товара
+        </th>
+        <th>
+            Категория
+        </th>
+        <th>
+            Производитель
+        </th>
+        <th>
+            Стоимость
+        </th>
+        <th>
+            Количество
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.categoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.producer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td>
+
+
+
+
+
+
+
+                @Html.ActionLink("Изменить", "Edit", new { id = item.id }) |
+                <!--@Html.ActionLink("Details", "Details", new { id=item.id }) |-->
+                @Html.ActionLink("Удалить", "Delete", new { id = item.id })
+            </td>
+        </tr>
+
+        }
+
+    </table>

@@ -1,0 +1,70 @@
+﻿@model Computer_Store.DAO.Models.Product
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление товара</h2>
+
+<h3>Вы уверенны что хотите удалить этот товар ?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.categoryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categoryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.producer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.producer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.amount)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Вернуться назад", "Index")
+        </div>
+    }
+</div>

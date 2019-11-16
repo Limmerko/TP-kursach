@@ -30,7 +30,7 @@ namespace Computer_Store.Controllers
             try
             {
                 basketDAO.create(basket);
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -38,32 +38,70 @@ namespace Computer_Store.Controllers
             } 
         }
 
+        // GET: Product/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View(basketDAO.getOne(id));
+        }
+
+        // POST: Product/Edit/5
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit(int id, Basket basket)
+        {
+            try
+            {
+                basketDAO.update(id, basket);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View("Edit");
+            }
+        }
+
         public ActionResult Details(int id)
         {
-            List<Basket> basket = basketDAO.getAll();
             ViewData["basketId"] = id;
-            return View(basket[id]);
+            return View(basketDAO.getOne(id));
         }
 
-        
 
 
-
-
-
-
-        public ActionResult About()
+        // GET: Product/Delete/5
+        public ActionResult Delete(int id)
         {
-            ViewBag.Message = "Your application description page.";
+            return View(basketDAO.getOne(id));
+        }
 
+        // POST: Product/Delete/5
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                basketDAO.delete(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View("Delete");
+            }
+        }
+
+
+        // Поиск товара
+        // GET:
+        public ActionResult Search()
+        {
+            return View(new ProductDAO().getAll());
+        }
+
+        // POST:
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Search(String s)
+        {
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Computer_Store.DAO.Models
 {
-    public enum status {Оплачено=1, Не_оплачено, частично_оплачено }
+    public enum status {Оплачено=1, Не_оплачено, Частично_оплачено }
     public class Basket
     {
         public int id { get; set; }
