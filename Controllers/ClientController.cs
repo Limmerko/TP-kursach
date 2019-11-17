@@ -8,30 +8,28 @@ using System.Web.Mvc;
 
 namespace Computer_Store.Controllers
 {
-    public class ProductController : Controller
+    public class ClientController : Controller
     {
-        ProductDAO productDAO = new ProductDAO();
-
-        // GET: Product
+        ClientDAO clientDAO = new ClientDAO();
+        // GET: Client
         public ActionResult Index()
         {
-            return View(productDAO.getAll());
+            return View(clientDAO.getAll());
         }
 
-
-        // GET: Product/Create
+        // GET: Client/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Product/Create
+        // POST: Client/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind(Exclude = "Id")] Product product)
+        public ActionResult Create([Bind(Exclude = "Id")] Client client)
         {
             try
             {
-                productDAO.create(product);
+                clientDAO.create(client);
                 return RedirectToAction("Index");
             }
             catch
@@ -40,19 +38,19 @@ namespace Computer_Store.Controllers
             }
         }
 
-        // GET: Product/Edit
+        // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(productDAO.getOne(id));
+            return View(clientDAO.getOne(id));
         }
 
-        // POST: Product/Edit
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, Product product)
+        // POST: Client/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, Client client)
         {
             try
             {
-                productDAO.update(id, product);
+                clientDAO.update(id, client);
                 return RedirectToAction("Index");
             }
             catch
@@ -61,19 +59,19 @@ namespace Computer_Store.Controllers
             }
         }
 
-        // GET: Product/Delete/5
+        // GET: Client/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(productDAO.getOne(id));
+            return View(clientDAO.getOne(id));
         }
 
-        // POST: Product/Delete/5
+        // POST: Client/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, Product product)
+        public ActionResult Delete(int id, Client client)
         {
             try
             {
-                productDAO.delete(id);
+                clientDAO.delete(id);
                 return RedirectToAction("Index");
             }
             catch
