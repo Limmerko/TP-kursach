@@ -80,6 +80,62 @@ namespace Computer_Store.DAO.DAOClasses
             }
         }
 
+        public List<Product> getAll(SearchParameters sp)
+        {
+            List<Product> productList = new List<Product>();
+            try
+            {
+                string sql = "SELECT*FROM Product";
+                if (sp.produserSearch != null && sp.produserSearch != "" && sp.categorySearch != 0)
+                {
+                    sql = "SELECT*FROM Product where Producer=" +"'"+sp.produserSearch+"'"+ " and Category=" + sp.categorySearch;
+                }
+                else
+                {
+                    if (sp.produserSearch != null && sp.produserSearch != "")
+                    {
+                        sql = "SELECT*FROM Product where Producer=" + "'" + sp.produserSearch + "'";
+                    }
+                    else
+                    {
+                        if (sp.categorySearch != 0)
+                        {
+                            sql = "SELECT*FROM Product where Category=" + sp.categorySearch;
+                        }
+                        else
+                        {
+                            sql = "SELECT*FROM Product";
+                        }
+                    }
+                }
+                 
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Product product = new Product
+                    {
+                        id = Convert.ToInt32(reader["Id"]),
+                        title = Convert.ToString(reader["Title"]),
+                        number = Convert.ToString(reader["Number"]),
+                        categoryId = Convert.ToInt32(reader["Category"]),
+                        producer = Convert.ToString(reader["Producer"]),
+                        price = Convert.ToInt32(reader["Price"]),
+                        amount = Convert.ToInt32(reader["Amount"])
+
+                    };
+                    productList.Add(product);
+                }
+                reader.Close();
+                return productList;
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+                return null;
+            }
+        }
+
         public Product getOne(int id)
         {
             try

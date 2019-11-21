@@ -182,6 +182,7 @@
     <Compile Include="DAO\DAOClasses\ClientDAO.cs" />
     <Compile Include="DAO\DAOClasses\OrderListDAO.cs" />
     <Compile Include="DAO\DAOClasses\ProductDAO.cs" />
+    <Compile Include="DAO\Models\SearchParameters.cs" />
     <Compile Include="DAO\DAOClasses\ShoppingListDAO.cs" />
     <Compile Include="DAO\IDAO.cs" />
     <Compile Include="DAO\Models\Basket.cs" />
@@ -261,11 +262,11 @@
     <Content Include="Views\Home\Delete.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\Client\Create.cshtml" />
     <Content Include="Views\Client\Edit.cshtml" />
     <Content Include="Views\Client\Delete.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

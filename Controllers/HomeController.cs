@@ -88,7 +88,6 @@ namespace Computer_Store.Controllers
             }
         }
 
-
         // Поиск товара
         // GET:
         public ActionResult Search()
@@ -98,10 +97,9 @@ namespace Computer_Store.Controllers
 
         // POST:
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Search(String s)
+        public ActionResult Search(SearchParameters sp)
         {
-            return View();
+            return View(new ProductDAO().getAll(sp));
         }
-
     }
 }

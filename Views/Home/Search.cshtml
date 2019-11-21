@@ -6,41 +6,37 @@
 
 <h2>Поиск товара</h2>
 
-<!--И ВСЕ ЭТО НАДО ЗАПИХАТЬ В ФОРМУ ЧТОБЫ ОТПРАВЛЯТЬ НА СЕРВЕР-->
-<hr />
-<table>
-    <tr>
-        <td>
-            <input type="text" placeholder="Введите название товара" size="50" />
-        </td>
-        <td>
-            <select>
-                <option disabled>Категория:</option>
-                <option>Без категории</option>
-                <option>Процессор</option>
-                <option>Видеокарта</option>
-                <option>ОП</option>
-                <option>Блок питания</option>
-                <option>Корпус</option>
-                <option>HDD</option>
-                <option>SSD</option>
-                <option>Монитор</option>
-                <option>Клавиатура</option>
-                <option>Мышь</option>
-                <option>Веб-камера</option>
-                <option>Графический планшет</option>
-            </select>
-        </td>
-        <td>
-            <input type="text" placeholder="Введите производителя товара" size="50" />
-        </td>
-    </tr>
-    <tr>
-    </tr>
-</table>
 <br />
-<input type="submit" value="Найти" />
-<!--ВОТ ДО СЮДА-->
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.DropDownList("Категория", new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))),"Выберите категорию:")
+        <div class="col-md-10">
+            @Html.EditorFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => new Computer_Store.DAO.Models.SearchParameters().produserSearch, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => new Computer_Store.DAO.Models.SearchParameters().produserSearch, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Найти" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+
 <hr />
 
 <table class="table">
@@ -90,17 +86,13 @@
             <td>
 
 
-
-
-
-
-
                 @Html.ActionLink("Купить", "", new { id = item.id }) |
-                <!--@Html.ActionLink("Details", "Details", new { id=item.id }) |-->
+                <!--@Html.ActionLink("Details", "Details", new { id = item.id }) |-->
                 @Html.ActionLink("Заказать", "Delete", new { id = item.id })
             </td>
         </tr>
 
-        }
+    }
 
-    </table>
+</table>
+
