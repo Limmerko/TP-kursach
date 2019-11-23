@@ -83,12 +83,21 @@ namespace Computer_Store.DAO.DAOClasses
         public List<Product> getAll(SearchParameters sp)
         {
             List<Product> productList = new List<Product>();
+            int cat = 0; 
+            foreach (var i in Enum.GetValues(typeof(category)))
+            {
+                if (i.ToString() == sp.categorySearch)
+                {
+                    cat = (int)i;
+                }
+            } 
+
             try
             {
                 string sql = "SELECT*FROM Product";
-                if (sp.produserSearch != null && sp.produserSearch != "" && sp.categorySearch != 0)
+                if (sp.produserSearch != null && sp.produserSearch != "" && cat != 0)
                 {
-                    sql = "SELECT*FROM Product where Producer=" +"'"+sp.produserSearch+"'"+ " and Category=" + sp.categorySearch;
+                    sql = "SELECT*FROM Product where Producer=" +"'"+sp.produserSearch+"'"+ " and Category=" + cat;
                 }
                 else
                 {
@@ -98,9 +107,9 @@ namespace Computer_Store.DAO.DAOClasses
                     }
                     else
                     {
-                        if (sp.categorySearch != 0)
+                        if (cat != 0)
                         {
-                            sql = "SELECT*FROM Product where Category=" + sp.categorySearch;
+                            sql = "SELECT*FROM Product where Category=" + cat;
                         }
                         else
                         {

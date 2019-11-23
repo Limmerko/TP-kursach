@@ -65,8 +65,6 @@ namespace Computer_Store.Controllers
             return View(basketDAO.getOne(id));
         }
 
-
-
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
@@ -90,16 +88,33 @@ namespace Computer_Store.Controllers
 
         // Поиск товара
         // GET:
-        public ActionResult Search()
+        public ActionResult Search(int basketId)
         {
+            ViewData["basketId"] = basketId;
             return View(new ProductDAO().getAll());
         }
 
         // POST:
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Search(SearchParameters sp)
+        public ActionResult Search(SearchParameters sp, int basketId)
         {
+            ViewData["basketId"] = basketId;
             return View(new ProductDAO().getAll(sp));
+        }
+
+        public ActionResult AddShoppingList(int productId, int basketId)
+        {
+            try
+            {
+                ShoppingListDAO shopListDAO = new ShoppingListDAO();
+                shopListDAO.add(productId, basketId);
+                return RedirectToAction("Search", "Home", new { basketId});
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction("Search", "Home", new { basketId });
+            }
         }
     }
 }

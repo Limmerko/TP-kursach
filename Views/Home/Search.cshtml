@@ -8,32 +8,32 @@
 
 <br />
 
+@Html.ActionLink("Вернуться", "Details/"+ Convert.ToInt32(@ViewData["basketId"]), new {basketId = Convert.ToInt32(@ViewData["basketId"])})
+<br />
+<hr />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <div class="form-group">
-        @Html.DropDownList("Категория", new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))),"Выберите категорию:")
-        <div class="col-md-10">
-            @Html.EditorFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.DropDownListFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))), "Выберите категорию:")
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => new Computer_Store.DAO.Models.SearchParameters().produserSearch, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => new Computer_Store.DAO.Models.SearchParameters().produserSearch, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="form-group">
+            @Html.LabelFor(model => new Computer_Store.DAO.Models.SearchParameters().produserSearch, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => new Computer_Store.DAO.Models.SearchParameters().produserSearch, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Найти" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Найти" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
 }
 
 
@@ -72,7 +72,7 @@
                 @Html.DisplayFor(modelItem => item.number)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.categoryId)
+                @((Computer_Store.DAO.Models.category)item.categoryId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.producer)
@@ -84,15 +84,14 @@
                 @Html.DisplayFor(modelItem => item.amount)
             </td>
             <td>
-
-
-                @Html.ActionLink("Купить", "", new { id = item.id }) |
-                <!--@Html.ActionLink("Details", "Details", new { id = item.id }) |-->
-                @Html.ActionLink("Заказать", "Delete", new { id = item.id })
+                <b>
+                    @Html.ActionLink("Купить", "AddShoppingList", new { productId = item.id, basketId = Convert.ToInt32(@ViewData["basketId"]) })
+                </b><br />
+                <b>
+                    <button type="button" />Заказать
+                </b>
             </td>
         </tr>
-
     }
-
 </table>
 

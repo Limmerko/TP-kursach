@@ -8,6 +8,6 @@ namespace Computer_Store.DAO.Models
     public class SearchParameters
     {
         public string produserSearch { get; set; }
-        public int categorySearch { get; set; }
+        public string categorySearch { get; set; }
     }
 }

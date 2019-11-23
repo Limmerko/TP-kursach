@@ -10,5 +10,7 @@ namespace Computer_Store.DAO.Models
         public int id { get; set; }
         public int basketId { get; set; }
         public int productId { get; set; }
+
+        public int statusId { get; set; }
     }
 }

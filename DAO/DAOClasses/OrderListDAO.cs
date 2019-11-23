@@ -27,7 +27,8 @@ namespace Computer_Store.DAO.DAOClasses
                     {
                         id = Convert.ToInt32(reader["Id"]),
                         basketId = Convert.ToInt32(reader["Id_Basket"]),
-                        productId = Convert.ToInt32(reader["Id_Product"])
+                        productId = Convert.ToInt32(reader["Id_Product"]),
+                        statusId = Convert.ToInt32(reader["Status"])
                     };
                     orderList.Add(order);
                 }

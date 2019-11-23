@@ -13,6 +13,7 @@ namespace Computer_Store.DAO.DAOClasses
         {
             connect();
         }
+
         public List<ShoppingList> getList(int basketId)
         {
             List<ShoppingList> shopingList = new List<ShoppingList>();
@@ -27,7 +28,8 @@ namespace Computer_Store.DAO.DAOClasses
                     {
                         id = Convert.ToInt32(reader["Id"]),
                         basketId = Convert.ToInt32(reader["Id_Basket"]),
-                        productId = Convert.ToInt32(reader["Id_Product"])
+                        productId = Convert.ToInt32(reader["Id_Product"]),
+                        statusId = Convert.ToInt32(reader["Status"])
                     };
                     shopingList.Add(shop);
                 }
@@ -38,6 +40,23 @@ namespace Computer_Store.DAO.DAOClasses
             {
                 Logger.log.Error(e.Message);
                 return null;
+            }
+        }
+
+        public void add(int productId, int basketId)
+        {
+            try
+            {
+                string sql = "INSERT INTO Shopping_list (Id_Basket, Id_Product, Status) VALUES (@1, @2, @3)";
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@1", basketId);
+                cmd.Parameters.AddWithValue("@2", productId);
+                cmd.Parameters.AddWithValue("@3", 2);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
             }
         }
     }
