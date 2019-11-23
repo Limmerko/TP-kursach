@@ -116,5 +116,20 @@ namespace Computer_Store.Controllers
                 return RedirectToAction("Search", "Home", new { basketId });
             }
         }
+
+        public ActionResult AddOrderList(int productId, int basketId)
+        {
+            try
+            {
+                OrderListDAO orderList = new OrderListDAO();
+                orderList.add(productId, basketId);
+                return RedirectToAction("Search", "Home", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction("Search", "Home", new { basketId });
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@
 
 <br />
 
-@Html.ActionLink("Вернуться", "Details/"+ Convert.ToInt32(@ViewData["basketId"]), new {basketId = Convert.ToInt32(@ViewData["basketId"])})
+@Html.ActionLink("Вернуться", "Details/" + Convert.ToInt32(@ViewData["basketId"]), new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
 <br />
 <hr />
 
@@ -18,7 +18,10 @@
 
     <div class="form-horizontal">
         <div class="form-group">
-            @Html.DropDownListFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))), "Выберите категорию:")
+            @Html.LabelFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))), "Выберите категорию:")
+            </div>
         </div>
 
         <div class="form-group">
@@ -35,7 +38,6 @@
         </div>
     </div>
 }
-
 
 <hr />
 
@@ -85,10 +87,8 @@
             </td>
             <td>
                 <b>
-                    @Html.ActionLink("Купить", "AddShoppingList", new { productId = item.id, basketId = Convert.ToInt32(@ViewData["basketId"]) })
-                </b><br />
-                <b>
-                    <button type="button" />Заказать
+                    @Html.ActionLink("Купить", "AddShoppingList", new { productId = item.id, basketId = Convert.ToInt32(@ViewData["basketId"]) }) |
+                    @Html.ActionLink("Заказать", "AddOrderList", new { productId = item.id, basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
             </td>
         </tr>

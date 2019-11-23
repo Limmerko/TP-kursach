@@ -41,5 +41,22 @@ namespace Computer_Store.DAO.DAOClasses
                 return null;
             }
         }
+
+        public void add(int productId, int basketId)
+        {
+            try
+            {
+                string sql = "INSERT INTO Order_list (Id_Basket, Id_Product, Status) VALUES (@1, @2, @3)";
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@1", basketId);
+                cmd.Parameters.AddWithValue("@2", productId);
+                cmd.Parameters.AddWithValue("@3", 4);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+        }
     }
 }
