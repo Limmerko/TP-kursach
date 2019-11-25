@@ -9,15 +9,13 @@ namespace Computer_Store.DAO.DAOClasses
 {
     public class ClientDAO : DAO, IDAO<Client> 
     {
-        public ClientDAO()
-        {
-            connect();
-        }
 
         public void create(Client t) 
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на добавление нового клиента");
                 string sql = "INSERT INTO Client (Name, Patronymic, Surname, Phone) VALUES (@1, @2, @3, @4)";
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@1", t.name);
@@ -30,12 +28,18 @@ namespace Computer_Store.DAO.DAOClasses
             {
                 Logger.log.Error(e.Message);
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public void delete(int id)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на удаление клиента с Id = " + id);
                 string sql = "DELETE FROM Client where Id="+id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.ExecuteNonQuery();
@@ -44,13 +48,19 @@ namespace Computer_Store.DAO.DAOClasses
             {
                 Logger.log.Error(e.Message);
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public List<Client> getAll()
         {
+            connect();
             List<Client> clientList = new List<Client>();
             try
             {
+                Logger.log.Info("Выполнение запроса на получение списка всех клиентов");
                 string sql = "SELECT*FROM Client";
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -74,12 +84,18 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Error(e.Message);
                 return null;
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public Client getOne(int id)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на получение клиента с Id = " + id);
                 string sql = "SELECT*FROM Client where Id="+id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -100,12 +116,18 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Error(e.Message);
                 return null;
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public void update(int id, Client t)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на обновление клиента с Id = " + id);
                 string sql = "UPDATE Client SET Name=@1, Patronymic=@2, Surname=@3, Phone=@4 where Id=" + id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@1", t.name);
@@ -117,6 +139,10 @@ namespace Computer_Store.DAO.DAOClasses
             catch(SqlException e)
             {
                 Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
             }
         }
     }

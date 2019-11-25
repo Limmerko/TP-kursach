@@ -9,16 +9,13 @@ namespace Computer_Store.DAO.DAOClasses
 {
     public class ShoppingListDAO : DAO
     {
-        public ShoppingListDAO()
-        {
-            connect();
-        }
-
         public List<ShoppingList> getList(int basketId)
         {
+            connect();
             List<ShoppingList> shopingList = new List<ShoppingList>();
             try
             {
+                Logger.log.Info("Выполнение запроса на получение списка покупок из корзины с Id = " + basketId);
                 string sql = "SELECT*FROM Shopping_list where Id_Basket="+basketId;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -41,12 +38,18 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Error(e.Message);
                 return null;
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public void add(int productId, int basketId)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на добавление товара с Id = " + productId + " в список покупок из корзины с Id = " + basketId);
                 string sql = "INSERT INTO Shopping_list (Id_Basket, Id_Product, Status) VALUES (@1, @2, @3)";
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@1", basketId);
@@ -57,6 +60,29 @@ namespace Computer_Store.DAO.DAOClasses
             catch (SqlException e)
             {
                 Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void paid(int basketId)
+        {
+            connect();
+            try
+            {
+                Logger.log.Info("Выполнение запроса на покупку товаров из списка заказов из корзины с Id = " + basketId);
+                string sql = "UPDATE Shopping_list SET Status=" + 1 + " where Id_Basket=" + basketId;
+                new SqlCommand(sql, connection).ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
             }
         }
     }

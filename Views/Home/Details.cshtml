@@ -118,12 +118,12 @@
         <tr>
             <td>
                 <b>
-                    <button type="button" />Продать
+                    @Html.ActionLink("Продать", "ToPaidShoppingList", new { basketId = Convert.ToInt32(@ViewData["basketId"])})
                 </b>
             </td>
             <td>
                 <b>
-                    <button type="button" />Заказать
+                    @Html.ActionLink("Заказать", "ToOrderOrderList", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
                 <b>
                     <button type="button" />Перевести

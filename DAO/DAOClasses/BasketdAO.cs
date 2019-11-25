@@ -9,14 +9,11 @@ namespace Computer_Store.DAO.DAOClasses
 {
     public class BasketDAO : DAO, IDAO<Basket>
     {
-        public BasketDAO()
-        {
-            connect();
-        }
         public void create(Basket t)
         {
+            connect();
             try
-            {
+            { 
                 Logger.log.Info("Выполнение запроса на создание новой корзины");
                 string sql = "INSERT INTO Basket (Id_Client, DataOfCreation, Status, Total_price) VALUES (@1, @2, @3, @4)";
                 SqlCommand cmd = new SqlCommand(sql, connection);
@@ -30,12 +27,18 @@ namespace Computer_Store.DAO.DAOClasses
             {
                 Logger.log.Error(e.Message);
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public void delete(int id)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на удаление корзины с Id = "+id);
                 string sql = "DELETE FROM Basket where Id=" + id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.ExecuteNonQuery();
@@ -44,13 +47,19 @@ namespace Computer_Store.DAO.DAOClasses
             {
                 Logger.log.Error(e.Message);
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public List<Basket> getAll()
         {
+            connect();
             List<Basket> basketList = new List<Basket>();
             try
             {
+                Logger.log.Info("Выполнение запроса на получение списка всех корзин");
                 string sql = "SELECT*FROM Basket";
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -74,12 +83,18 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Error(e.Message);
                 return null;
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public Basket getOne(int id)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на получение корзины");
                 string sql = "SELECT*FROM Basket where Id="+id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -93,9 +108,9 @@ namespace Computer_Store.DAO.DAOClasses
                         statusId = Convert.ToInt32(reader["Status"]),
                         totalPrice = Convert.ToInt32(reader["Total_price"])
                     };
+                    reader.Close();
                     return basket;
                 }
-                reader.Close();
                 return null;
             }
             catch (SqlException e)
@@ -103,12 +118,18 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Error(e.Message);
                 return null;
             }
+            finally
+            {
+                disconnect();
+            }
         }
 
         public void update(int id, Basket t)
         {
+            connect();
             try
             {
+                Logger.log.Info("Выполнение запроса на обновление корзины с Id = "+id);
                 string sql = "UPDATE Basket SET Id_Client=@1, DataOfCreation=@2, Status=@3, Total_price=@4 where Id=" + id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@1", t.clientId);
@@ -120,6 +141,10 @@ namespace Computer_Store.DAO.DAOClasses
             catch (SqlException e)
             {
                 Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
             }
         }
     }

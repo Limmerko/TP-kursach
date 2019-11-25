@@ -14,7 +14,6 @@ namespace Computer_Store.DAO
         protected SqlConnection connection { get; set; }
         public void connect()
         {
-            Logger.log.Info("Устанsовка соединения с БД");
             try
             {
                 connection = new SqlConnection(connectionString);

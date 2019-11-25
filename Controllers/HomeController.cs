@@ -121,14 +121,46 @@ namespace Computer_Store.Controllers
         {
             try
             {
-                OrderListDAO orderList = new OrderListDAO();
-                orderList.add(productId, basketId);
+                OrderListDAO orderListDAO = new OrderListDAO();
+                orderListDAO.add(productId, basketId);
                 return RedirectToAction("Search", "Home", new { basketId });
             }
             catch (Exception e)
             {
                 Logger.log.Error(e.Message);
                 return RedirectToAction("Search", "Home", new { basketId });
+            }
+        }
+
+        public ActionResult ToPaidShoppingList(int basketId)
+        {
+            try
+            {
+                ShoppingListDAO shopListDAO = new ShoppingListDAO();
+                shopListDAO.paid(Convert.ToInt32(basketId));
+                ViewData["basketId"] = basketId;
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+        }
+
+        public ActionResult ToOrderOrderList(int basketId)
+        {
+            try
+            {
+                OrderListDAO orderListDAO = new OrderListDAO();
+                orderListDAO.order(Convert.ToInt32(basketId));
+                ViewData["basketId"] = basketId;
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
             }
         }
     }
