@@ -139,6 +139,12 @@ namespace Computer_Store.Controllers
                 ShoppingListDAO shopListDAO = new ShoppingListDAO();
                 shopListDAO.paid(Convert.ToInt32(basketId));
                 ViewData["basketId"] = basketId;
+                foreach (var n in shopListDAO.getList(basketId))
+                {
+                    if (n.statusId == 2)
+                    new ProductDAO().paid(n.productId, new ProductDAO().getOne(n.productId).amount);
+                }
+
                 return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
             }
             catch (Exception e)

@@ -75,6 +75,7 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Info("Выполнение запроса на заказ товаров из списка заказов из корзины с Id = " + basketId);
                 string sql = "UPDATE Order_list SET Status=" + 3 + " where Id_Basket=" + basketId+"and Status="+4;
                 new SqlCommand(sql, connection).ExecuteNonQuery();
+
             }
             catch (SqlException e)
             {

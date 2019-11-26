@@ -227,5 +227,26 @@ namespace Computer_Store.DAO.DAOClasses
                 disconnect();
             }
         }
+
+        public void paid(int id, int amount)
+        {
+            connect();
+            try
+            {
+                Logger.log.Info("Выполнение запроса на продажу товара с Id = " + id);
+                string sql = "UPDATE Product SET Amount=@6 where Id=" + id;
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@6", amount - 1);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
     }
 }
