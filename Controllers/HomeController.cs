@@ -13,6 +13,7 @@ namespace Computer_Store.Controllers
     public class HomeController : Controller
     {
         BasketDAO basketDAO = new BasketDAO();
+
         public ActionResult Index()
         {
             Logger.initLogger();
@@ -24,11 +25,14 @@ namespace Computer_Store.Controllers
             return View(basketDAO.getAll());
         }
 
+        [Authorize(Roles ="Manager, Seller")]
         public ActionResult Create()
         {
+            ViewData["clientList"] = new ClientDAO().getAll();
             return View();
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind (Exclude ="Id")] Basket basket)
         {
@@ -43,12 +47,14 @@ namespace Computer_Store.Controllers
             } 
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
             return View(basketDAO.getOne(id));
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         // POST: Product/Edit/5
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int id, Basket basket)
@@ -64,18 +70,22 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult Details(int id)
         {
             ViewData["basketId"] = id;
+            ViewData["totalPay"] =  new ShoppingListDAO().totalPayable(id);
             return View(basketDAO.getOne(id));
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
             return View(basketDAO.getOne(id));
         }
 
+        [Authorize(Roles = "Manager")]
         // POST: Product/Delete/5
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(int id, FormCollection collection)
@@ -93,6 +103,7 @@ namespace Computer_Store.Controllers
 
         // Поиск товара
         // GET:
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult Search(int basketId)
         {
             ViewData["basketId"] = basketId;
@@ -100,6 +111,7 @@ namespace Computer_Store.Controllers
         }
 
         // POST:
+        [Authorize(Roles = "Manager, Seller")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchParameters sp, int basketId)
         {
@@ -107,6 +119,7 @@ namespace Computer_Store.Controllers
             return View(new ProductDAO().getAll(sp));
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult AddShoppingList(int productId, int basketId)
         {
             try
@@ -122,6 +135,7 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult AddOrderList(int productId, int basketId)
         {
             try
@@ -137,6 +151,7 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult ToPaidShoppingList(int basketId)
         {
             try
@@ -159,6 +174,7 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult ToOrderOrderList(int basketId)
         {
             try
@@ -175,6 +191,7 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult ToTransportFromOrderToShop(int basketId)
         {
             try
@@ -201,12 +218,47 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult DeliveredProduct(int productId, int basketId)
         {
             try
             {
                 OrderListDAO orderListDAO = new OrderListDAO();
                 orderListDAO.deliveredUpdate(productId, basketId);
+                ViewData["basketId"] = basketId;
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+        }
+
+        public ActionResult RemoveFromShoppingList(int basketId, int id)
+        {
+            try
+            {
+                ShoppingListDAO shopListDAO = new ShoppingListDAO();
+                shopListDAO.remove(id);
+
+                ViewData["basketId"] = basketId;
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+        }
+
+        public ActionResult RemoveFromOrderList(int basketId, int id)
+        {
+            try
+            {
+                OrderListDAO orderListDAO = new OrderListDAO();
+                orderListDAO.remove(id);
+
                 ViewData["basketId"] = basketId;
                 return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
             }

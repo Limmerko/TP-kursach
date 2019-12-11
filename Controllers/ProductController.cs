@@ -20,12 +20,14 @@ namespace Computer_Store.Controllers
 
 
         // GET: Product/Create
+        [Authorize(Roles = "Manager")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Product/Create
+        [Authorize(Roles = "Manager")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind(Exclude = "Id")] Product product)
         {
@@ -41,12 +43,14 @@ namespace Computer_Store.Controllers
         }
 
         // GET: Product/Edit
+        [Authorize(Roles = "Manager")]
         public ActionResult Edit(int id)
         {
             return View(productDAO.getOne(id));
         }
 
         // POST: Product/Edit
+        [Authorize(Roles = "Manager")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int id, Product product)
         {
@@ -61,6 +65,7 @@ namespace Computer_Store.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager")]
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
@@ -68,6 +73,7 @@ namespace Computer_Store.Controllers
         }
 
         // POST: Product/Delete/5
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public ActionResult Delete(int id, Product product)
         {

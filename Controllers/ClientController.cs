@@ -18,12 +18,14 @@ namespace Computer_Store.Controllers
         }
 
         // GET: Client/Create
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Client/Create
+        [Authorize(Roles = "Manager, Seller")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([Bind(Exclude = "Id")] Client client)
         {
@@ -39,12 +41,14 @@ namespace Computer_Store.Controllers
         }
 
         // GET: Client/Edit/5
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult Edit(int id)
         {
             return View(clientDAO.getOne(id));
         }
 
         // POST: Client/Edit/5
+        [Authorize(Roles = "Manager, Seller")]
         [HttpPost]
         public ActionResult Edit(int id, Client client)
         {
@@ -60,12 +64,14 @@ namespace Computer_Store.Controllers
         }
 
         // GET: Client/Delete/5
+        [Authorize(Roles = "Manager, Seller")]
         public ActionResult Delete(int id)
         {
             return View(clientDAO.getOne(id));
         }
 
         // POST: Client/Delete/5
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public ActionResult Delete(int id, Client client)
         {

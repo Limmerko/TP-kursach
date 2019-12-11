@@ -42,7 +42,7 @@
                         </th>
                     </tr>
                     @foreach (var item in new Computer_Store.DAO.DAOClasses.ShoppingListDAO().getList(Convert.ToInt32(@ViewData["basketId"])))
-                    {
+                     {
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).title)
@@ -62,8 +62,11 @@
                             <td>
                                 @((Computer_Store.DAO.Models.statusProduct)item.statusId)
                             </td>
+                            <td>
+                                @Html.ActionLink("Убрать", "RemoveFromShoppingList", new { basketId = Convert.ToInt32(@ViewData["basketId"]), id = item.id })
+                            </td>
                         </tr>
-                    }
+                     }
                 </table>
             </td>
             <td>
@@ -89,7 +92,7 @@
                         </th>
                     </tr>
                     @foreach (var item in new Computer_Store.DAO.DAOClasses.OrderListDAO().getList(Convert.ToInt32(@ViewData["basketId"])))
-                    {
+{
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => new Computer_Store.DAO.DAOClasses.ProductDAO().getOne(item.productId).title)
@@ -110,10 +113,12 @@
                                 @((Computer_Store.DAO.Models.statusProduct)item.statusId)
                             </td>
                             <td>
-                                @Html.ActionLink("Доставлен", "DeliveredProduct", new { productId = item.productId, basketId = Convert.ToInt32(@ViewData["basketId"]) })
+                                @Html.ActionLink("Доставлено", "DeliveredProduct", new { productId = item.productId, basketId = Convert.ToInt32(@ViewData["basketId"]) })
+                                @Html.ActionLink("Убрать", "RemoveFromOrderList", new { basketId = Convert.ToInt32(@ViewData["basketId"]), id = item.id })
                             </td>
+
                         </tr>
-                    }
+}
                 </table>
             </td>
         </tr>
@@ -127,16 +132,18 @@
                 <b>
                     @Html.ActionLink("Заказать", "ToOrderOrderList", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
-                 | 
+                |
                 <b>
                     @Html.ActionLink("Перевести", "ToTransportFromOrderToShop", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
             </td>
         </tr>
+            
     </table>
 </div>
-<hr />
-
+<h3><b> Итого к оплате:  @ViewData["totalPay"] </b></h3>
 <p>
+    <hr />
+
     @Html.ActionLink("Вернуться назад", "Index")
 </p>

@@ -85,5 +85,53 @@ namespace Computer_Store.DAO.DAOClasses
                 disconnect();
             }
         }
+
+        public int totalPayable(int basketId)
+        {
+            connect();
+            int totalPay = 0;
+            try
+            {
+                Logger.log.Info("Выполнение запроса на получение списка покупок из корзины с Id = " + basketId);
+                string sql = "SELECT*FROM Shopping_list where Id_Basket=" + basketId+ "and  + Status="+2;
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    totalPay +=  new ProductDAO().getOne(Convert.ToInt32(reader["Id_Product"])).price;
+                }
+                reader.Close();
+                return totalPay;
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+                return totalPay;
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void remove(int id)
+        {
+            connect();
+            try
+            {
+                Logger.log.Info("Выполнение запроса на удаление товара из списка покупок у корзины с Id = " + id);
+                string sql = "DELETE FROM Shopping_list where Id=" + id;
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
     }
 }

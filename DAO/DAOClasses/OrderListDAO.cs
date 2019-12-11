@@ -124,5 +124,25 @@ namespace Computer_Store.DAO.DAOClasses
                 disconnect();
             }
         }
+
+        public void remove(int id)
+        {
+            connect();
+            try
+            {
+                Logger.log.Info("Выполнение запроса на удаление товара из списка заказов у корзины с Id = " + id);
+                string sql = "DELETE FROM Order_list where Id=" + id;
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
     }
 }
