@@ -75,7 +75,45 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Info("Выполнение запроса на заказ товаров из списка заказов из корзины с Id = " + basketId);
                 string sql = "UPDATE Order_list SET Status=" + 3 + " where Id_Basket=" + basketId+"and Status="+4;
                 new SqlCommand(sql, connection).ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
 
+        public void delete(int productId, int basketId)
+        {
+            connect();
+            try
+            {
+                Logger.log.Info("Выполнение запроса на удаление товара с Id из списка заказов корзины с Id = " + basketId);
+                string sql = "DELETE FROM Order_list where Id_Basket=" + basketId+ " and Id_Product = "+ productId;
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void deliveredUpdate(int productId, int basketId)
+        {
+            connect();
+            try
+            {
+                Logger.log.Info("Выполнение запроса на обновление статуса товара в списке заказов у коризны с Id = " + basketId);
+                string sql = "UPDATE Order_list SET Status="+ 5 + " where Id_Basket=" + basketId + " and Id_Product = "+ productId;
+                new SqlCommand(sql, connection).ExecuteNonQuery();
             }
             catch (SqlException e)
             {

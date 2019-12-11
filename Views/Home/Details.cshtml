@@ -2,11 +2,10 @@
 @{
     ViewBag.Title = "Details";
 }
-
 <h2>Состав корзины</h2>
 
 <p>
-    @Html.ActionLink("Найти товар", "Search", new { basketId = Convert.ToInt32(@ViewData["basketId"])})
+    @Html.ActionLink("Найти товар", "Search", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
 </p>
 
 <div>
@@ -21,7 +20,7 @@
         </tr>
         <tr>
             <td>
-                <table class="table" >
+                <table class="table">
                     <tr>
                         <th>
                             Название
@@ -110,6 +109,9 @@
                             <td>
                                 @((Computer_Store.DAO.Models.statusProduct)item.statusId)
                             </td>
+                            <td>
+                                @Html.ActionLink("Доставлен", "DeliveredProduct", new { productId = item.productId, basketId = Convert.ToInt32(@ViewData["basketId"]) })
+                            </td>
                         </tr>
                     }
                 </table>
@@ -118,22 +120,22 @@
         <tr>
             <td>
                 <b>
-                    @Html.ActionLink("Продать", "ToPaidShoppingList", new { basketId = Convert.ToInt32(@ViewData["basketId"])})
+                    @Html.ActionLink("Продать", "ToPaidShoppingList", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
             </td>
             <td>
                 <b>
                     @Html.ActionLink("Заказать", "ToOrderOrderList", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
+                 | 
                 <b>
-                    <button type="button" />Перевести
+                    @Html.ActionLink("Перевести", "ToTransportFromOrderToShop", new { basketId = Convert.ToInt32(@ViewData["basketId"]) })
                 </b>
             </td>
         </tr>
     </table>
 </div>
 <hr />
-
 
 <p>
     @Html.ActionLink("Вернуться назад", "Index")

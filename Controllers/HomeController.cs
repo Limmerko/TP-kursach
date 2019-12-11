@@ -15,7 +15,12 @@ namespace Computer_Store.Controllers
         BasketDAO basketDAO = new BasketDAO();
         public ActionResult Index()
         {
-            Logger.initLogger(); // может нам вообще не надо его вызывать ? ПОТЕСТИТЬ
+            Logger.initLogger();
+            foreach(var basket in basketDAO.getAll())
+            {
+                basketDAO.totalUpdate(basket.id);
+            }
+            
             return View(basketDAO.getAll());
         }
 
@@ -160,6 +165,48 @@ namespace Computer_Store.Controllers
             {
                 OrderListDAO orderListDAO = new OrderListDAO();
                 orderListDAO.order(Convert.ToInt32(basketId));
+                ViewData["basketId"] = basketId;
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+        }
+
+        public ActionResult ToTransportFromOrderToShop(int basketId)
+        {
+            try
+            {
+                OrderListDAO orderListDAO = new OrderListDAO();
+                ShoppingListDAO shopListDAO = new ShoppingListDAO();
+                List<OrderList> orderList = orderListDAO.getList(basketId);
+                ViewData["basketId"] = basketId;
+                foreach (var product in orderList)
+                {
+                    if (product.statusId == 5)
+                    {
+                        shopListDAO.add(product.productId, basketId);
+                        orderListDAO.delete(product.productId, basketId);
+                    }
+                }
+                orderList.Clear();
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error(e.Message);
+                return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
+            }
+        }
+
+        public ActionResult DeliveredProduct(int productId, int basketId)
+        {
+            try
+            {
+                OrderListDAO orderListDAO = new OrderListDAO();
+                orderListDAO.deliveredUpdate(productId, basketId);
                 ViewData["basketId"] = basketId;
                 return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
             }

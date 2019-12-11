@@ -13,7 +13,7 @@ namespace Computer_Store.DAO.DAOClasses
         {
             connect();
             try
-            { 
+            {
                 Logger.log.Info("Выполнение запроса на создание новой корзины");
                 string sql = "INSERT INTO Basket (Id_Client, DataOfCreation, Status, Total_price) VALUES (@1, @2, @3, @4)";
                 SqlCommand cmd = new SqlCommand(sql, connection);
@@ -38,7 +38,7 @@ namespace Computer_Store.DAO.DAOClasses
             connect();
             try
             {
-                Logger.log.Info("Выполнение запроса на удаление корзины с Id = "+id);
+                Logger.log.Info("Выполнение запроса на удаление корзины с Id = " + id);
                 string sql = "DELETE FROM Basket where Id=" + id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.ExecuteNonQuery();
@@ -95,7 +95,7 @@ namespace Computer_Store.DAO.DAOClasses
             try
             {
                 Logger.log.Info("Выполнение запроса на получение корзины");
-                string sql = "SELECT*FROM Basket where Id="+id;
+                string sql = "SELECT*FROM Basket where Id=" + id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
@@ -129,13 +129,55 @@ namespace Computer_Store.DAO.DAOClasses
             connect();
             try
             {
-                Logger.log.Info("Выполнение запроса на обновление корзины с Id = "+id);
+                Logger.log.Info("Выполнение запроса на обновление корзины с Id = " + id);
                 string sql = "UPDATE Basket SET Id_Client=@1, DataOfCreation=@2, Status=@3, Total_price=@4 where Id=" + id;
                 SqlCommand cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@1", t.clientId);
                 cmd.Parameters.AddWithValue("@2", t.dateOfCreation);
                 cmd.Parameters.AddWithValue("@3", t.statusId);
                 cmd.Parameters.AddWithValue("@4", t.totalPrice);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Logger.log.Error(e.Message);
+            }
+            finally
+            {
+                disconnect();
+            }
+        }
+
+        public void totalUpdate(int id)
+        {
+            connect();
+            try
+            {
+                ShoppingListDAO shopListDAO = new ShoppingListDAO();
+                List<ShoppingList> shopList = shopListDAO.getList(id);
+                int price = 0; int statusPaid = 0; int statusNotPaid = 0;
+                foreach (var pr in shopList)
+                {
+                    Product product = new ProductDAO().getOne(pr.productId);
+                    price += product.price;
+                    if (pr.statusId == 1)
+                        statusPaid++;
+                    else
+                        statusNotPaid++;
+                }
+                int status = 2;
+                if (statusPaid > 0 && statusNotPaid > 0)
+                    status = 3;
+                else
+                    if (statusNotPaid == 0)
+                    status = 1;
+                else
+                    status = 2;
+
+                string sql = "UPDATE Basket SET Status=@1, Total_price=@2 where Id=" + id;
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@1", status);
+                cmd.Parameters.AddWithValue("@2", price);
                 cmd.ExecuteNonQuery();
             }
             catch (SqlException e)
