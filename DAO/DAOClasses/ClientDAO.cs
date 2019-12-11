@@ -74,6 +74,7 @@ namespace Computer_Store.DAO.DAOClasses
                         surname = Convert.ToString(reader["Surname"]),
                         phone = Convert.ToString(reader["Phone"])
                     };
+
                     clientList.Add(client);
                 }
                 reader.Close();
