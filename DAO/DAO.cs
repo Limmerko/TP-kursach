@@ -11,7 +11,7 @@ namespace Computer_Store.DAO
     {
         private string connectionString = System.Configuration.ConfigurationManager.
             ConnectionStrings[@"ComputerStoreDB"].ConnectionString;
-        protected SqlConnection connection { get; set; }
+        public SqlConnection connection { get; set; }
         public void connect()
         {
             try

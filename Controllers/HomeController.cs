@@ -21,7 +21,6 @@ namespace Computer_Store.Controllers
             {
                 basketDAO.totalUpdate(basket.id);
             }
-            
             return View(basketDAO.getAll());
         }
 
@@ -33,12 +32,11 @@ namespace Computer_Store.Controllers
         }
 
         [Authorize(Roles = "Manager, Seller")]
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([Bind (Exclude ="Id")] Basket basket)
+        public ActionResult CreateBasket(int basketId)
         {
             try
             {
-                basketDAO.create(basket);
+                basketDAO.create(basketId);
                 return RedirectToAction("Index");
             }
             catch

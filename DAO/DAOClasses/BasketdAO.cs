@@ -9,7 +9,7 @@ namespace Computer_Store.DAO.DAOClasses
 {
     public class BasketDAO : DAO, IDAO<Basket>
     {
-        public void create(Basket t)
+        public void create(int id)
         {
             connect();
             try
@@ -17,7 +17,7 @@ namespace Computer_Store.DAO.DAOClasses
                 Logger.log.Info("Выполнение запроса на создание новой корзины");
                 string sql = "INSERT INTO Basket (Id_Client, DataOfCreation, Status, Total_price) VALUES (@1, @2, @3, @4)";
                 SqlCommand cmd = new SqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@1", t.clientId);
+                cmd.Parameters.AddWithValue("@1", id);
                 cmd.Parameters.AddWithValue("@2", DateTime.Now);
                 cmd.Parameters.AddWithValue("@3", 2);
                 cmd.Parameters.AddWithValue("@4", 0);
@@ -188,6 +188,11 @@ namespace Computer_Store.DAO.DAOClasses
             {
                 disconnect();
             }
+        }
+
+        public void create(Basket t)
+        {
+            throw new NotImplementedException();
         }
     }
 }
