@@ -20,7 +20,8 @@
         <div class="form-group">
             @Html.LabelFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))), "Выберите категорию:")
+                @Html.DropDownListFor(model => new Computer_Store.DAO.Models.SearchParameters().categorySearch, 
+               new SelectList(Enum.GetValues(typeof(Computer_Store.DAO.Models.category))), "Выберите категорию:")
             </div>
         </div>
 

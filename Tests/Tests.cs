@@ -40,7 +40,20 @@ namespace Computer_Store.Tests
 
             Assert.AreEqual(productList, new DAO.DAOClasses.ProductDAO().getAll(param));
         }
+
+        [Test]
+        public void TestSearchNull()
+        {
+            SearchParameters param = new SearchParameters();
+            param.categorySearch = "0";
+            param.produserSearch = "0";
+
+            Assert.Null(new DAO.DAOClasses.ProductDAO().getAll(param));
+        }
+
+        [Test]
+        public void
     }
+}
 
     //можно сделать тест, который будет проверять возвращение ошибки
-}

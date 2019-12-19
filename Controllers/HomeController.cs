@@ -233,12 +233,12 @@ namespace Computer_Store.Controllers
             }
         }
 
-        public ActionResult RemoveFromShoppingList(int basketId, int id)
+        public ActionResult RemoveFromShoppingList(int basketId, int productId)
         {
             try
             {
                 ShoppingListDAO shopListDAO = new ShoppingListDAO();
-                shopListDAO.remove(id);
+                shopListDAO.remove(productId);
 
                 ViewData["basketId"] = basketId;
                 return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
@@ -250,12 +250,12 @@ namespace Computer_Store.Controllers
             }
         }
 
-        public ActionResult RemoveFromOrderList(int basketId, int id)
+        public ActionResult RemoveFromOrderList(int basketId, int productId)
         {
             try
             {
                 OrderListDAO orderListDAO = new OrderListDAO();
-                orderListDAO.remove(id);
+                orderListDAO.remove(productId);
 
                 ViewData["basketId"] = basketId;
                 return RedirectToAction(basketId.ToString(), "Home/Details", new { basketId });
