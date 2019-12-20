@@ -5,12 +5,14 @@ using System.Linq;
 using System.Web;
 using Computer_Store.DAO.Models;
 using System.Data.SqlClient;
+using System.Web.Mvc;
 
 namespace Computer_Store.Tests
 {
     [TestFixture]
     public class Tests
     {
+        // Проверяет работу поиска товаров
         [Test]
         public void TestSearch()
         {
@@ -41,6 +43,7 @@ namespace Computer_Store.Tests
             Assert.AreEqual(productList, new DAO.DAOClasses.ProductDAO().getAll(param));
         }
 
+        //Проверяет работу поиска товаров
         [Test]
         public void TestSearchNull()
         {
@@ -51,9 +54,73 @@ namespace Computer_Store.Tests
             Assert.Null(new DAO.DAOClasses.ProductDAO().getAll(param));
         }
 
+        //Проверяет, что у всех корзин стоит правильный статус
         [Test]
-        public void
+        public void statusPaidBasket()
+        {
+            bool ok = true;
+            DAO.DAOClasses.BasketDAO dao = new DAO.DAOClasses.BasketDAO();
+            
+            foreach(var n in dao.getAll())
+            {
+                switch (n.statusId)
+                {
+                    case 1:
+                        DAO.DAOClasses.ShoppingListDAO shopDaoPaid = new DAO.DAOClasses.ShoppingListDAO();
+                        foreach (var p in shopDaoPaid.getList(n.id))
+                            if (p.statusId != 1) { ok = false; break; }
+                        break;
+                    case 2:
+                        DAO.DAOClasses.ShoppingListDAO shopDaoNotPaid = new DAO.DAOClasses.ShoppingListDAO();
+                        foreach (var p in shopDaoNotPaid.getList(n.id))
+                            if (p.statusId != 2) { ok = false; break; }
+                        break;
+                    case 3:
+                        int paid = 0; int notpaid = 0;
+                        DAO.DAOClasses.ShoppingListDAO shopDaoParPaid = new DAO.DAOClasses.ShoppingListDAO();
+                        foreach (var p in shopDaoParPaid.getList(n.id))
+                            if (p.statusId == 1)
+                                paid++;
+                            else
+                                notpaid++;
+                        if (paid > 0 && notpaid > 0 && n.statusId != 3)
+                            ok = false;
+                        break;
+                }
+            }
+
+            Assert.IsTrue(ok);
+        }
+
+        //Проверяет, что у всех корзин стоит правильная стоимость
+        [Test]
+        public void totalPriceBasket()
+        {
+            bool ok = true;
+            DAO.DAOClasses.BasketDAO dao = new DAO.DAOClasses.BasketDAO();
+
+            foreach (var n in dao.getAll())
+            {
+                int totalPrice = 0;
+                DAO.DAOClasses.ShoppingListDAO shopDao = new DAO.DAOClasses.ShoppingListDAO();
+                foreach (var p in shopDao.getList(n.id))
+                {
+                    totalPrice += new DAO.DAOClasses.ProductDAO().getOne(p.productId).price;
+                }
+                if (totalPrice != n.totalPrice) { ok = false; break; }
+            }
+
+            Assert.IsTrue(ok);
+        }
+
+        [Test]
+        public void Index()
+        {
+            Controllers.HomeController controller = new Controllers.HomeController();
+            ViewResult view = controller.Index() as ViewResult;
+
+            Assert.IsNotNull(view);
+        }
     }
 }
 
-    //можно сделать тест, который будет проверять возвращение ошибки

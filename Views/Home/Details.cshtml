@@ -63,7 +63,7 @@
                                 @((Computer_Store.DAO.Models.statusProduct)item.statusId)
                             </td>
                             <td>
-                                @Html.ActionLink("Убрать", "RemoveFromShoppingList", new { basketId = Convert.ToInt32(@ViewData["basketId"]), id = item.id })
+                                @Html.ActionLink("Убрать", "RemoveFromShoppingList", new { basketId = Convert.ToInt32(@ViewData["basketId"]), productId = item.id })
                             </td>
                         </tr>
                      }
@@ -114,7 +114,7 @@
                             </td>
                             <td>
                                 @Html.ActionLink("Доставлено", "DeliveredProduct", new { productId = item.productId, basketId = Convert.ToInt32(@ViewData["basketId"]) })
-                                @Html.ActionLink("Убрать", "RemoveFromOrderList", new { basketId = Convert.ToInt32(@ViewData["basketId"]), id = item.id })
+                                @Html.ActionLink("Убрать", "RemoveFromOrderList", new { basketId = Convert.ToInt32(@ViewData["basketId"]), productId = item.id })
                             </td>
 
                         </tr>

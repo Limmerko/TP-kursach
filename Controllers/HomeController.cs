@@ -9,7 +9,6 @@ using Computer_Store.DAO.Models;
 
 namespace Computer_Store.Controllers
 {
-
     public class HomeController : Controller
     {
         BasketDAO basketDAO = new BasketDAO();
